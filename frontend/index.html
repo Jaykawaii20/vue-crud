@@ -16,14 +16,14 @@
     <ul class="list-group">
       <li v-for="todo in todos" :key="todo.id" class="list-group-item">
         <span v-if="todo.editing">
-          <input type="text" v-model="todo.text" class="form-control">
+          <input type="text" v-model="todo.name" class="form-control">
           <div class="btn-group mt-2">
             <button @click="saveEdit(todo)" class="btn btn-success">Save</button>
             <button @click="cancelEdit(todo)" class="btn btn-secondary">Cancel</button>
           </div>
         </span>
         <span v-else>
-          {{ todo.text }}
+          {{ todo.name }}
           <div class="btn-group float-end">
             <button @click="confirmDelete(todo)" class="btn btn-danger">Delete</button>
             <button @click="edit(todo)" class="btn btn-warning">Edit</button>
@@ -47,7 +47,7 @@
       },
       methods: {
         fetchTodos() {
-          axios.get('http://localhost:44301/api/todos/todo')
+          axios.get('http://localhost:44301/api/todos')
             .then(response => {
               this.todos = response.data;
             })
@@ -56,7 +56,7 @@
             });
         },
         addTodo() {
-          axios.get('http://localhost:44301/api/todos', { text: this.newTodo })
+          axios.post('http://localhost:44301/api/addTodo', { name: this.newTodo })
             .then(response => {
               this.todos.push(response.data);
               this.newTodo = '';
@@ -71,9 +71,9 @@
           }
         },
         deleteTodo(id) {
-          axios.delete(`http://localhost:44301/api/todos/${id}`)
+          axios.delete(`http://localhost:44301/api/deleteTodo/${id}`)
             .then(() => {
-              this.todos = this.todos.filter(todo => id !== id);
+              this.todos = this.todos.filter(todo => todo.id !== id);
             })
             .catch(error => {
               console.error('Error deleting todo:', error);
