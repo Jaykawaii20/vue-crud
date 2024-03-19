@@ -25,4 +25,4 @@ Route::get('/todos/todo', [TodoController::class, 'index']);
 Route::get('/todos', [TodoController::class, 'store']);
 Route::post('/todos{todo}', [TodoController::class, 'show']);
 Route::put('/todos/{todo}', [TodoController::class, 'update']);
-Route::delete('/todos/{todo}', [TodoController::class, 'delete']);
+Route::delete('/todos/{todo}', [TodoController::class, 'destroy']);
